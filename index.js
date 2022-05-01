@@ -10,10 +10,16 @@ function setup(){
     createCanvas(600, 600);
     //setting framerate for testin
     //frameRate(30);
+    //giving snake starting length of two
+
 
 
 }
+function keyTyped(){
 
+
+    return true;
+}
 
 
 function draw(){

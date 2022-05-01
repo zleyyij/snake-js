@@ -4,13 +4,21 @@ class Snake{
         this.sleepTime = 0;
         //time in *frames* before the snake moves
         //why is this a variable it's only called once
-       this.updateDelay = 5;
+       this.updateDelay = 7;
          //defining x, y, and dir of the head
          this.dir = 1;
         this.body = [{
             x:10,
              y:10,
             },
+            {
+              x:9,
+              y:10
+            },
+            {
+              x:8,
+              y:10
+            }
           ];
           //alive or dead
           this.alive = true;
@@ -75,30 +83,35 @@ class Snake{
       }  
       
       //changing the direction of the head based on keycode
-      if(keyIsPressed){
+      //need to make it so that it only happens on key press
+      if(keyTyped()){
         //if dir != is to keep the snake from collapsing upon itself and destroying the spce time continuum
       switch(keyCode){
           //up
         case 38:
-          if(this.dir != 2 && this.moveBuffer[this.moveBuffer.length - 1] != 0){
+        if(this.dir !=2){
+        //  if(this.dir != 2 && this.moveBuffer[this.moveBuffer.length - 1] != 0){
         this.moveBuffer.push(0);
           }
         break;
         case 39:
         //right
-        if(this.dir != 3 && this.moveBuffer[this.moveBuffer.length - 1] != 1){
+      // if(this.dir != 3 && this.moveBuffer[this.moveBuffer.length - 1] != 1){
+        if(this.dir !=3){
         this.moveBuffer.push(1);
         }
         break;
         case 40:
         //down
-        if(this.dir != 0 && this.moveBuffer[this.moveBuffer.length - 1] != 2){
+       // if(this.dir != 0 && this.moveBuffer[this.moveBuffer.length - 1] != 2){
+        if(this.dir !=0){
         this.moveBuffer.push(2);
         }
         break;
         case 37:
         //left
-        if(this.dir != 1 && this.moveBuffer[this.moveBuffer.length - 1] != 3){
+       // if(this.dir != 1 && this.moveBuffer[this.moveBuffer.length - 1] != 3){
+        if(this.dir !=1){
         this.moveBuffer.push(3);
         }
         break;
@@ -111,7 +124,16 @@ class Snake{
         x:10,
         y:10
 
-      }]
+      },
+      {
+       x:9,
+      y:10
+       },
+        {
+        x:8,
+        y:10
+        }
+      ]
       this.alive = true;
       this.dir = 1;
 
@@ -125,18 +147,19 @@ class Snake{
     update(){
 
       //transferring the movement along the body
-      this.sleepTime++;
+            //preventing massive buildups by removing first item in queue
+      if(this.moveBuffer.length > 4){
+        this.moveBuffer.shift();
+      }
+     this.sleepTime++;
       if(this.sleepTime > this.updateDelay){
       this.sleepTime = 0;
-      if(this.moveBuffer.length > 0){
+
+      if(this.moveBuffer.length > 1){
 
       this.dir = this.moveBuffer.pop();
-      }
-      //preventing massive buildups by removing first item in queue
-      if(this.moveBuffer.length > 1){
-        this.moveBuffer.shift();
-
-      }
+      
+       }
         if(this.alive){
         //actually moving it
       switch(this.dir){
