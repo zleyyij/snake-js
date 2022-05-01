@@ -19,12 +19,13 @@ function setup(){
 
 
 function draw(){
-    background(100, 10);
+    //alpha set to add crappy blur
+    background(10, 50);
     //adding lines to make reference work simpler
     //could be done in one statement but doesn't work for modified canvas size
     // i is one for borderless nonsense
 
-    stroke(0);
+    stroke(50);
     for(var i = 1; i < gridHeight; i++){
         line(0, height/gridHeight * i, width, height / gridHeight * i)
     }

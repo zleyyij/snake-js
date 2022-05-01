@@ -4,7 +4,7 @@ class Snake{
         this.sleepTime = 0;
         //time in *frames* before the snake moves
         //why is this a variable it's only called once
-       this.updateDelay = 10;
+       this.updateDelay = 5;
          //defining x, y, and dir of the head
          this.dir = 1;
         this.body = [{
@@ -39,9 +39,23 @@ class Snake{
 
               }
 
+            }
+         //edge warping mechanic
+            if(this.body[0].x > gridWidth){
+              this.body[0].x = 0;
+            }
+            if(this.body[0].y > gridWidth){
+              this.body[0].y = 0;
+            }
+            if(this.body[0].x < 0){
+              this.body[0].x = gridWidth;
+            }
+            if(this.body[0].y < 0){
+              this.body[0].y = gridHeight;
 
 
             }
+         //drawing a new segment in whatever direction the snake is going
             this.body.splice(0, 0, {
               x:this.body[0].x + x,
               y:this.body[0].y + y
@@ -104,21 +118,14 @@ class Snake{
 
     //if any of the segments minus the head has the same coords as the head, restart
     if(!this.alive){
-    for(var i = 0; i < this.body.length; i++){
-      
-        console.log("dead")
-        //add speed to body
-        //add increase in speed to speed
-        this.body[i].xs = 0;
-        this.body[i].ys = 0;
-        this.body[i].x += this.body[i].xs;
-        this.body[i].y += this.body[i].ys;
-        this.body[i].xss = Math.random()/10;
-        this.body[i].yss = Math.random()/10;
-        this.body[i].xs += this.body[i].xss;
-        this.body[i].yss += this.body[i].yss;
+      this.body = [{
+        x:10,
+        y:10
 
-      }
+      }]
+      this.alive = true;
+      this.dir = 1;
+
 
 
     }
