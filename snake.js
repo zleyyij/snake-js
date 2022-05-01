@@ -11,16 +11,6 @@ class Snake{
             x:10,
              y:10,
             },
-          // //position 2 for bugchecking
-          // {
-          //   x:9,
-          //   y:10,
-          // },
-          // {
-          //   x:8,
-          //   y:10,
-
-          // }
           ];
           //alive or dead
           this.alive = true;
@@ -28,9 +18,7 @@ class Snake{
              //moving head forwards
             //taking last thing in the array and inseting at beginning
             //but adding x to one
-      
             // I don't know why I must use an identical object for this to work instead of just referencing the object at index 0 directly
-            
             //I wish I could just store the dir in each object and push it along, the array, and move by changing index 0's dir
             //no clue why above doesn't work
             for(var i = 1; i < this.body.length; i ++){
@@ -38,13 +26,12 @@ class Snake{
                 this.alive = false;
 
               }
-
             }
          //edge warping mechanic
-            if(this.body[0].x > gridWidth){
+            if(this.body[0].x >= gridWidth){
               this.body[0].x = 0;
             }
-            if(this.body[0].y > gridWidth){
+            if(this.body[0].y >= gridWidth){
               this.body[0].y = 0;
             }
             if(this.body[0].x < 0){
@@ -66,6 +53,8 @@ class Snake{
             //booting to prevent unlimited growth
               this.body.pop();
         }
+        //move buffer for increased percieved responsiveness
+        this.moveBuffer = [];
         
 
     }
@@ -91,26 +80,26 @@ class Snake{
       switch(keyCode){
           //up
         case 38:
-          if(this.dir != 2){
-        this.dir = 0;
+          if(this.dir != 2 && this.moveBuffer[this.moveBuffer.length - 1] != 0){
+        this.moveBuffer.push(0);
           }
         break;
         case 39:
         //right
-        if(this.dir != 3){
-        this.dir = 1;
+        if(this.dir != 3 && this.moveBuffer[this.moveBuffer.length - 1] != 1){
+        this.moveBuffer.push(1);
         }
         break;
         case 40:
         //down
-        if(this.dir != 0){
-        this.dir = 2;
+        if(this.dir != 0 && this.moveBuffer[this.moveBuffer.length - 1] != 2){
+        this.moveBuffer.push(2);
         }
         break;
         case 37:
         //left
-        if(this.dir != 1){
-        this.dir = 3;
+        if(this.dir != 1 && this.moveBuffer[this.moveBuffer.length - 1] != 3){
+        this.moveBuffer.push(3);
         }
         break;
       }
@@ -139,6 +128,15 @@ class Snake{
       this.sleepTime++;
       if(this.sleepTime > this.updateDelay){
       this.sleepTime = 0;
+      if(this.moveBuffer.length > 0){
+
+      this.dir = this.moveBuffer.pop();
+      }
+      //preventing massive buildups by removing first item in queue
+      if(this.moveBuffer.length > 1){
+        this.moveBuffer.shift();
+
+      }
         if(this.alive){
         //actually moving it
       switch(this.dir){
